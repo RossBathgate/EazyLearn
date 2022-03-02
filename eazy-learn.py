@@ -11,12 +11,16 @@ REACT_PATH = "./react/script.js" ### TBC
 
 def main():
   # Open Selenium
-  driver = webdriver.Chrome(DRIVER_PATH)
-  driver.get(MYED_LOGIN_URL)
+  # driver = webdriver.Chrome(DRIVER_PATH)
+  # driver.get(MYED_LOGIN_URL)
 
   # Login
   try:
     username, password = getLoginDetails()
+    print(username, password)
+    return
+
+
     login(driver, username, password)
   except:
     print("Login failed.")
@@ -28,9 +32,26 @@ def main():
   injectReact(driver, visibleCourses, REACT_PATH)
   
 
-def getLoginDetails():
+def getLoginDetails(file="credentials.txt"):
   """ Asks for login details """
-  pass
+
+  with open("credentials.txt", "r+") as file:
+    contents = file.read().splitlines()
+
+    if (len(contents) > 1):
+      username, password = contents[0], contents[1]
+    else:
+      # Prompts for username and password if none have been saved
+      print("Well Hello There!  We are glad you have chosen EazyLearn!")
+      username = input("Enter myed username:\t")
+      password = input("Enter myed password:\t")
+      
+      # Overwrite the file with new credentials
+      file.seek(0)
+      file.write(username+"\n"+password)
+      file.truncate()
+
+  return username, password
 
 
 def login(driver, username, password):
