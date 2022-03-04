@@ -17,11 +17,7 @@ def main():
   # Login
   try:
     username, password = getLoginDetails()
-    print(username, password)
-    return
-
-
-    login(driver, username, password)
+    # login(driver, username, password)
   except:
     print("Login failed.")
     return
@@ -35,39 +31,36 @@ def main():
 def getLoginDetails(file="credentials.txt"):
   """ Asks for login details """
 
+  # Gets username and password
   with open("credentials.txt", "r+") as file:
     contents = file.read().splitlines()
 
     if (len(contents) > 1):
       username, password = contents[0], contents[1]
     else:
-      # Prompts for username and password if none have been saved
+      # Prompts for username and password if none are saved
       print("Well Hello There!  We are glad you have chosen EazyLearn!")
       username = input("Enter myed username:\t")
       password = input("Enter myed password:\t")
       
-      # Overwrite the file with new credentials
+      # Write new credentials to file
       file.seek(0)
       file.write(username+"\n"+password)
       file.truncate()
 
   return username, password
 
-
 def login(driver, username, password):
   """ Automates the login process through myed """
   pass
-
 
 def getCourseLinks(driver):
   """ Returns a dictionary {courseName: url} """
   pass
 
-
 def chooseVisibleCourses(courseLinks):
   """ Prompt to choose visible courses """
   pass
-
 
 def injectReact(driver, reactPath):
   """ Replaces html code with React """
