@@ -75,7 +75,18 @@ def getCourseLinks(driver):
 
 def chooseVisibleCourses(courseLinks):
   """ Prompt to choose visible courses """
-  pass
+  # Display courses
+  index = 0
+  for courseName in courseLinks.keys():
+    print("%d) %s" % (index, courseName))
+    index += 1
+  
+  # Choose courses
+  inputStr = input("Choose courses:")
+  allChoices = dict(zip(range(index), courseLinks.keys()))
+  choicesNames = [allChoices[int(num)] for num in inputStr.split()]
+  choicesDict = {name: courseLinks[name] for name in choicesNames}
+  return choicesDict
 
 def injectReact(driver, visibleCourses, reactPath):
   """ Replaces html code with React """
