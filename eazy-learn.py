@@ -1,6 +1,6 @@
 """ Eazy to make, eazy to learn """
-
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from time import sleep
 
 USERNAME = "s2187089"
@@ -11,8 +11,11 @@ REACT_PATH = "./react/script.js" ### TBC
 
 def main():
   # Open Selenium
-  # driver = webdriver.Chrome(DRIVER_PATH)
+  driver = webdriver.Chrome(DRIVER_PATH)
   # driver.get(MYED_LOGIN_URL)
+  driver.get("https://www.myed.ed.ac.uk/myed-progressive/#/")
+
+  
 
   # Login
   try:
@@ -56,13 +59,20 @@ def login(driver, username, password):
 
 def getCourseLinks(driver):
   """ Returns a dictionary {courseName: url} """
-  pass
+  # linkElements = driver.find_element(By.CLASS_NAME, 'list-group').find_element(By.CLASS_NAME, 'list-group-item')
+  linkElementsContainer = driver.find_elements(By.CLASS_NAME, 'list-group')
+  sleep(2)
+  driver.close() #temp
+  print(linkElementsContainer)
+
+  return []
+
 
 def chooseVisibleCourses(courseLinks):
   """ Prompt to choose visible courses """
   pass
 
-def injectReact(driver, reactPath):
+def injectReact(driver, username, reactPath):
   """ Replaces html code with React """
   pass
 
