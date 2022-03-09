@@ -26,6 +26,7 @@ def main():
   
   # Process page
   courseLinks = getCourseLinks(driver)
+  print(courseLinks)
   visibleCourses = chooseVisibleCourses(courseLinks)
   injectReact(driver, visibleCourses, REACT_PATH)
   
@@ -34,6 +35,13 @@ def getLoginDetails(file="credentials.txt"):
   """ Asks for login details """
 
   # Gets username and password
+  try:
+    file = open("credentials.txt", "r+")
+    file.close()
+  except:
+    file = open("credentials.txt", "w+")
+    file.close()
+
   with open("credentials.txt", "r+") as file:
     contents = file.read().splitlines()
 
@@ -64,13 +72,19 @@ def login(driver, username, password):
 
 def getCourseLinks(driver):
   """ Returns a dictionary {courseName: url} """
-  # linkElements = driver.find_element(By.CLASS_NAME, 'list-group').find_element(By.CLASS_NAME, 'list-group-item')
-  linkElementsContainer = driver.find_elements(By.CLASS_NAME, 'list-group')
-  sleep(2)
-  driver.close() #temp
-  print(linkElementsContainer)
+  sleep(1.5)
 
-  return []
+  # generate the dictionary
+  linkElementsContainer = driver.find_elements(By.CLASS_NAME, 'list-group')
+  linkElementsLI = linkElementsContainer[0].find_elements(By.CLASS_NAME, 'list-group-item')
+  courseInfo = [(LI.find_element(By.TAG_NAME, 'a').get_attribute('innerHTML'), LI.find_element(By.TAG_NAME, 'a').get_attribute('href')) for LI in linkElementsLI]
+  courseDict = {}
+  sleep(2)
+  for course in courseInfo:
+    name,link = course
+    courseDict[name] = link
+
+  return courseDict
 
 
 def chooseVisibleCourses(courseLinks):
