@@ -26,7 +26,6 @@ def main():
   
   # Process page
   courseLinks = getCourseLinks(driver)
-  print(courseLinks)
   visibleCourses = chooseVisibleCourses(courseLinks)
   injectReact(driver, visibleCourses, REACT_PATH)
   
@@ -72,14 +71,14 @@ def login(driver, username, password):
 
 def getCourseLinks(driver):
   """ Returns a dictionary {courseName: url} """
-  sleep(1.5)
+  sleep(2)
 
   # generate the dictionary
   linkElementsContainer = driver.find_elements(By.CLASS_NAME, 'list-group')
   linkElementsLI = linkElementsContainer[0].find_elements(By.CLASS_NAME, 'list-group-item')
   courseInfo = [(LI.find_element(By.TAG_NAME, 'a').get_attribute('innerHTML'), LI.find_element(By.TAG_NAME, 'a').get_attribute('href')) for LI in linkElementsLI]
   courseDict = {}
-  sleep(2)
+  
   for course in courseInfo:
     name,link = course
     courseDict[name] = link
