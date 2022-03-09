@@ -103,6 +103,9 @@ def chooseVisibleCourses(courseLinks):
 
 def injectReact(driver, visibleCourses, reactPath):
   """ Replaces html code with React """
+  driver.execute_script("document.body.innerHTML = '<p>%s</p>';" % "I am going to the toilet.")
+  # driver.execute_script("alert('I am going to the toilet.');")
+  sleep(10)
   pass
 
 
