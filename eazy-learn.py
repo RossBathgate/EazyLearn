@@ -10,19 +10,19 @@ MYED_LOGIN_URL = "https://www.ease.ed.ac.uk/cosign.cgi?cosign-eucsCosign-www.mye
 REACT_PATH = "./react/script.js" ### TBC
 
 def main():
-  # Open Selenium
-  driver = webdriver.Chrome(DRIVER_PATH)
-  driver.get(MYED_LOGIN_URL)
-
   # Login
   try:
     username, password = getLoginDetails()
-    login(driver, username, password)
   except:
     print("Login failed.")
     return
 
-  sleep(100)
+  # Open Selenium
+  driver = webdriver.Chrome(DRIVER_PATH)
+  driver.get(MYED_LOGIN_URL)
+
+  # Login in Selenium
+  login(driver, username, password)
   
   # Process page
   courseLinks = getCourseLinks(driver)
