@@ -94,7 +94,6 @@ def getCourseLinks(driver):
   for course in courseInfo:
     name,link = course
     courseDict[name] = link
-
   return courseDict
 
 
