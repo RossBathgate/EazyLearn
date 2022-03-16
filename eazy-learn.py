@@ -144,15 +144,16 @@ def injectReact(driver, visibleCourses, reactPath):
   """ Replaces html code with React """
   # [{title: link: }]
   # Convert visible courses to json
-  # formattedCourses = [{"title": courseName, "link": courseLink} for (courseName, courseLink) in visibleCourses.items()]
-  # visibleCoursesJson = json.dumps(formattedCourses)
+  formattedCourses = [{"title": courseName, "link": courseLink} for (courseName, courseLink) in visibleCourses.items()]
+  visibleCoursesJson = json.dumps(formattedCourses)
 
   # Inject react code
-  driver.execute_script("document.head.parentElement.removeChild(document.head); document.body.innerHTML = `<div id=\"root\">hey</div>`;" )
+  driver.execute_script("document.head.parentElement.removeChild(document.head); document.body.innerHTML = `<div id=\"root\"></div>`; window.%s = `%s`;" 
+                        % (REACT_WINDOW_OBJECT, visibleCoursesJson) )
 
-  # with open(reactPath, "r") as reactFile:
-  #   reactScript = reactFile.read() 
-  #   driver.execute_script(reactScript)
+  with open(reactPath, "r") as reactFile:
+    reactScript = reactFile.read() 
+    driver.execute_script(reactScript)
 
 
 # Starts the program
