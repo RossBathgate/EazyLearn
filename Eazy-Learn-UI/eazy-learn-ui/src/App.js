@@ -6,8 +6,10 @@ const API_KEY = "p3Ss1kYbt7ZbRe8jkLdDAKH9LMGYXhRT";
 const SEARCH_TERM = "learn";
 
 const App = () => {
-    const [chosenCourses, setChosenCourses] = useState();
-    JSON.parse(window.visibleCourses);
+    const [chosenCourses, setChosenCourses] = useState(
+        JSON.parse(window.visibleCourses)
+    );
+
     // [
     //     {
     //         title: "Test Course One. some padding text bla bla",
