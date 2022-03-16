@@ -8,7 +8,7 @@ USERNAME = "s2187089"
 PASSWORD = "hellothere"
 DRIVER_PATH = "./drivers/chromedriver.exe"
 MYED_LOGIN_URL = "https://www.ease.ed.ac.uk/cosign.cgi?cosign-eucsCosign-www.myed.ed.ac.uk&https://www.myed.ed.ac.uk/uPortal/Login?refUrl=%2Fmyed-progressive%2F"
-REACT_PATH = "./react/script.js" ### TBC
+REACT_PATH = "./ui.js"
 CREDENTIALS_PATH = "credentials.txt"
 VISIBLE_COURSES_PATH = "course_links.txt"
 REACT_WINDOW_OBJECT = "visibleCourses"
