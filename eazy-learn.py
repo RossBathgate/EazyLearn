@@ -1,5 +1,5 @@
 """ Eazy to make, eazy to learn """
-from venv import create
+import json
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from time import sleep
@@ -11,6 +11,17 @@ MYED_LOGIN_URL = "https://www.ease.ed.ac.uk/cosign.cgi?cosign-eucsCosign-www.mye
 REACT_PATH = "./react/script.js" ### TBC
 CREDENTIALS_PATH = "credentials.txt"
 VISIBLE_COURSES_PATH = "course_links.txt"
+REACT_WINDOW_OBJECT = "visibleCourses"
+REACT_HTML_STRUCTURE = """
+<html>
+  <head>
+    <title>EazyLearn</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+"""
 
 def main():
   # Login
@@ -140,10 +151,20 @@ def saveVisibleCourses(visibleCourses, filepath):
 
 def injectReact(driver, visibleCourses, reactPath):
   """ Replaces html code with React """
-  driver.execute_script("document.body.innerHTML = '<p>%s</p>';" % "I am going to the toilet.")
-  driver.execute_script("alert('I am going to the toilet.');")
+  # [{title: link: }]
+  # Convert visible courses to json
+  formattedCourses = [{"title": courseName, "link": courseLink} for (courseName, courseLink) in visibleCourses.items()]
+  visibleCoursesJson = json.dumps(formattedCourses)
+
+  # Inject react code
+  driver.execute_script("document.body.innerHTML = `%s`; window.%s = %s"
+                        % (REACT_HTML_STRUCTURE, REACT_WINDOW_OBJECT, visibleCoursesJson))
+
+  with open(reactPath, "r") as reactFile:
+    reactScript = reactFile.read() 
+    driver.execute_script(reactScript)
+
   sleep(10)
-  pass
 
 
 # Starts the program
