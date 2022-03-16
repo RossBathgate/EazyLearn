@@ -12,16 +12,7 @@ REACT_PATH = "./react/script.js" ### TBC
 CREDENTIALS_PATH = "credentials.txt"
 VISIBLE_COURSES_PATH = "course_links.txt"
 REACT_WINDOW_OBJECT = "visibleCourses"
-REACT_HTML_STRUCTURE = """
-<html>
-  <head>
-    <title>EazyLearn</title>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
-</html>
-"""
+REACT_HTML_STRUCTURE = '<div id="root"></div>'
 
 def main():
   # Login
@@ -39,6 +30,7 @@ def main():
   login(driver, username, password)
   
   # Get visible courses
+  sleep(5)
   visibleCourses = readVisibleCourses(VISIBLE_COURSES_PATH)
   if not visibleCourses:
     courseLinks = getCourseLinks(driver)
@@ -47,6 +39,7 @@ def main():
 
   # Start React
   injectReact(driver, visibleCourses, REACT_PATH)
+  sleep(10)
   
 
 def createFileIfNotExists(filepath):
@@ -94,8 +87,6 @@ def login(driver, username, password):
 
 def getCourseLinks(driver):
   """ Returns a dictionary {courseName: url} """
-  sleep(10)
-
   # Extract courses from page
   linkElementsContainer = driver.find_elements(By.CLASS_NAME, 'list-group')
   linkElementsLI = linkElementsContainer[0].find_elements(By.CLASS_NAME, 'list-group-item')
@@ -153,18 +144,15 @@ def injectReact(driver, visibleCourses, reactPath):
   """ Replaces html code with React """
   # [{title: link: }]
   # Convert visible courses to json
-  formattedCourses = [{"title": courseName, "link": courseLink} for (courseName, courseLink) in visibleCourses.items()]
-  visibleCoursesJson = json.dumps(formattedCourses)
+  # formattedCourses = [{"title": courseName, "link": courseLink} for (courseName, courseLink) in visibleCourses.items()]
+  # visibleCoursesJson = json.dumps(formattedCourses)
 
   # Inject react code
-  driver.execute_script("document.body.innerHTML = `%s`; window.%s = %s"
-                        % (REACT_HTML_STRUCTURE, REACT_WINDOW_OBJECT, visibleCoursesJson))
+  driver.execute_script("document.head.parentElement.removeChild(document.head); document.body.innerHTML = `<div id=\"root\">hey</div>`;" )
 
-  with open(reactPath, "r") as reactFile:
-    reactScript = reactFile.read() 
-    driver.execute_script(reactScript)
-
-  sleep(10)
+  # with open(reactPath, "r") as reactFile:
+  #   reactScript = reactFile.read() 
+  #   driver.execute_script(reactScript)
 
 
 # Starts the program
