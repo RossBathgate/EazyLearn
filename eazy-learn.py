@@ -39,7 +39,7 @@ def main():
 
   # Start React
   injectReact(driver, visibleCourses, REACT_PATH)
-  sleep(10)
+  sleep(30)
   
 
 def createFileIfNotExists(filepath):
@@ -148,12 +148,11 @@ def injectReact(driver, visibleCourses, reactPath):
   visibleCoursesJson = json.dumps(formattedCourses)
 
   # Inject react code
-  driver.execute_script("document.head.parentElement.removeChild(document.head); document.body.innerHTML = `<div id=\"root\"></div>`; window.%s = `%s`;" 
-                        % (REACT_WINDOW_OBJECT, visibleCoursesJson) )
-
   with open(reactPath, "r") as reactFile:
     reactScript = reactFile.read() 
-    driver.execute_script(reactScript)
+    driver.execute_script("document.head.parentElement.removeChild(document.head); document.body.innerHTML = `<div id=\"root\"></div>`; window.%s = `%s`; alert(window.visibleCourses); %s" 
+                        % (REACT_WINDOW_OBJECT, visibleCoursesJson, reactScript) )
+
 
 
 # Starts the program
