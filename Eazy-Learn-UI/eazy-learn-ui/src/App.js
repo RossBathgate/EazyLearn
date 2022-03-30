@@ -10,6 +10,8 @@ const App = () => {
         JSON.parse(window.visibleCourses)
     );
 
+    console.log("REACT PRINTING THIS:" + JSON.parse(window.visibleCourses));
+
     // [
     //     {
     //         title: "Test Course One. some padding text bla bla",
